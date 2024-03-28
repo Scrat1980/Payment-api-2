@@ -1,0 +1,46 @@
+App\Entity\PriceRequest:
+  properties:
+    product:
+      - NotBlank: { message: 'Product id must be an integer number' }
+      - Positive: ~
+      - Type:
+          type: integer
+      - App\Validator\EntityExists:
+          entity: 'App\Entity\Product'
+          property: 'id'
+    taxNumber:
+      - NotBlank: ~
+      - App\Validator\TaxNumberFormat: ~
+    couponCode:
+      - AtLeastOneOf:
+          - App\Validator\EntityExists:
+              entity: 'App\Entity\Coupon'
+              property: 'name'
+              mode: 'one'
+              message: 'No such coupon in our storage or coupon code ambiguous'
+          - Blank: { message: 'Coupon code should be blank' }
+
+App\Entity\PurchaseRequest:
+  properties:
+    product:
+      - NotBlank: { message: 'Product id must be an integer number' }
+      - Positive: ~
+      - Type:
+          type: integer
+      - App\Validator\EntityExists:
+          entity: 'App\Entity\Product'
+          property: 'id'
+    taxNumber:
+      - NotBlank: ~
+      - App\Validator\TaxNumberFormat: ~
+    couponCode:
+      - AtLeastOneOf:
+          - App\Validator\EntityExists:
+              entity: 'App\Entity\Coupon'
+              property: 'name'
+              mode: 'one'
+              message: 'No such coupon in our storage or coupon code ambiguous'
+          - Blank: { message: 'Coupon code should be blank' }
+    paymentProcessor:
+        - NotBlank: { message: 'Payment processor must not be blank' }
+        - Choice: { choices: [paypal, stripe] message: We process only PayPal or Stripe}
