@@ -24,7 +24,6 @@ final class Version20240311134036 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        $this->addSql('DROP DATABASE IF EXISTS my_db');
     }
 }
 
